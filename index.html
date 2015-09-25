@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">   
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+  <title>Harvard Geographic Knowledge Survey</title>
+  <!--<link rel="shortcut icon" href="//esri.github.io/quickstart-map-js/images/favicon.ico">-->
+  <link href="css/simple-sidebar.css" rel="stylesheet">
+  <!-- ArcGIS API for JavaScript CSS-->
+  <link rel="stylesheet" href="//js.arcgis.com/3.10/js/esri/css/esri.css">
+  <!-- Web Framework CSS - Bootstrap (getbootstrap.com) and Bootstrap-map-js (github.com/esri/bootstrap-map-js) -->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/bootstrapmap.css">
+  <!-- jQuery -->
+   
+</head>
+  <body id="wrapper" class="toggled">
+    
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">      
+      <div id="mapDiv1"></div>
+      <div id="legendDiv"></div>
+
+    </div>
+    <!--
+    <div class="panel panel-primary panel-fixed">
+      <div class="panel-heading">
+        <h3 class="panel-title">Title...</h3>
+      </div>
+      <div class="panel-body">
+        
+        
+        <input type="submit" id="polysub" value="save!" class="btn btn-default"/>
+          
+      </div>
+    </div>    
+    -->
+    <div id="mapDiv0">
+    <button type="submit" id="polysub" class="btn btn-default">Save      
+    </button>
+      <!--<button type="button" id="polysub" class="btn btn-default btn-circle btn-lg">
+        <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+      </button>
+      -->
+      <div id="legendDiv1"></div>
+      <!--<input type="submit" id="polysub" value="save!" class="btn btn-default"/>-->
+
+      <div id="originText"><h1></h1></div>
+    </div>
+    <div class="modal fade" id="formModalFirst" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h2 class="modal-title">Harvard Geographic Knowledge Survey</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="modalPageOne">
+                      Please read the following information about this research and indicate that you agree to participate. 
+                      <p><strong>Purpose of the research</strong>: To understand the how well people can place groups in geographic space and how this relates to their attitudes about groups.</p>
+                      <p><strong>What you will do in this research:</strong> If you decide to participate, you will complete one survey in which you will be asked to try to place groups on a map.</p>
+                      <p><strong>Time required:</strong> The survey will take approximately 5 minutes to complete.</p>
+                      <p><strong>Benefits:</strong> There are no direct benefits, but you may find it interesting.</p>
+                      <p><strong>Confidentiality:</strong> Your responses will be kept confidential. When research results are reported, responses will be aggregated (added together) and described in summary.</p>
+                      <p><strong>Participation and withdrawal:</strong> Your participation is completely voluntary, and you may quit at any time without penalty. You may also skip any question, but continue to complete the rest of the survey.</p>
+                      <button class=" btn btn-default next-button btn-circle btn-lg">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                    
+                  </div>
+                  <div class="modalPageTwo">
+
+                    <div class="input-group">
+                      <div id ="alert_placeholder"></div>
+                      <input type="text" class="form-control" id="zipcodeid" placeholder="Search for zipcode...">
+                      <span class="input-group-btn">
+                        <button type="submit" id="zipsub" class=" btn btn-default next-button">Go!</button>
+                      </span>
+
+                  </div>                      
+                    
+                  </div>
+                                    
+                </div>
+            </div>
+      </div>            
+    </div>
+    <!-- First Entry Form-->
+    <div class="modal fade" id="formModalSecond" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title">Enter a title 2</h4>
+                </div>
+                <div class="modal-body">
+                  
+                  <button type="button" id ="mapcompare" class="btn btn-default next-button btn-circle btn-lg">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                  </button>
+                 
+                </div>
+            </div>
+      </div>                  
+    </div>
+    <!-- Second Entry Form-->
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- ArcGIS API for JavaScript library references -->
+    <script src="//js.arcgis.com/3.14compact"></script>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="js/geopopslide.js"></script>  
+  </body>
+</html>
