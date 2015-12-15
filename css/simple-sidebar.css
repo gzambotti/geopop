@@ -130,87 +130,151 @@ html, body, #mapDiv0, #mapDiv1 {
 
 
     /* styles applied to features */
-    path[data-originbreak="originnone"] {
-        stroke: rgb(20, 20, 20);
+    path[data-originbreak="none"] {
+        stroke: rgb(60, 60, 60);
         stroke-width: 1pt;
-        stroke-opacity: 0.85;
+        stroke-opacity: 0.75;
         fill: rgb(192, 192, 192);
         fill-opacity: 0;
     }
 
-    path[data-originbreak="originAsian"] {
-        stroke: rgb(20, 20, 20);
-        stroke-width: 0pt;
-        stroke-opacity: 0.35;
+    path[data-originbreak="Asian"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;
         fill: rgb(255, 128, 0);
-        fill-opacity: 0.6;
+        fill-opacity: 0.9;
     }
 
-    path[data-originbreak="originBlack"] {
-        stroke: rgb(0, 0, 255);
-        stroke-width: 0pt;
-        stroke-opacity: 0.35;
-        fill: rgb(255, 0, 0);
-        fill-opacity: 0.6;
+    path[data-originbreak="Black"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;
+        fill: rgb(255, 0, 0);        
+        fill-opacity: 0.9;
     }
 
-    path[data-originbreak="originLatino"] {
-        stroke: rgb(255, 255, 0);
-        stroke-width: 0pt;
-        stroke-opacity: 0.35;
+    path[data-originbreak="Hispanic"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;
         fill: rgb(0, 255, 0);
-        fill-opacity: 0.6;
+        fill-opacity: 0.9;
     }
 
-    path[data-originbreak="originWhite"] {
-        stroke: rgb(255, 0, 255);
-        stroke-width: 0pt;
-        stroke-opacity: 0.35;
+    path[data-originbreak="White"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;
         fill: rgb(0, 0, 255);
-        fill-opacity: 0.6;
+        fill-opacity: 0.9;
     }
 
-    path[data-originbreak="originOther"] {
-        stroke: rgb(255, 0, 0);
-        stroke-width: 0pt;
-        stroke-opacity: 0.35;
-        fill: rgb(255, 0, 255);
-        fill-opacity: 0.6;
+    path[data-originbreak="AB"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradAB");
+        fill-opacity: 0.9;
+    }
+    /*click 1*/
+    path[data-originbreak="AH"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;       
+        fill:url("#gradAH");
+        fill-opacity: 0.9;
     }
 
-    /*path[data-originbreak="classbreak6"] {
-        stroke: rgb(245, 172, 29);
-        stroke-width: 1pt;
-        stroke-opacity: 0.35;
-        fill: rgb(196, 138, 23);
-        fill-opacity: 0.8;
+    path[data-originbreak="BH"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradBH");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="ABH"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradABH");
+        fill-opacity: 0.9;
+    }
+    /*click 2*/
+    path[data-originbreak="AW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;       
+        fill:url("#gradAW");
+        fill-opacity: 0.9;
     }
 
-    path[data-originbreak="classbreak7"] {
-        stroke: rgb(227, 163, 36);
-        stroke-width: 1pt;
-        stroke-opacity: 0.35;
-        fill: rgb(182, 131, 29);
-        fill-opacity: 0.8;
+    path[data-originbreak="BW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradBW");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="HW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradHW");
+        fill-opacity: 0.9;
+    }
+    /*click 3*/
+    path[data-originbreak="AW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradAW");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="BW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradBW");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="HW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradHW");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="ABW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradABW");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="AHW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradAHW");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="BHW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradBHW");
+        fill-opacity: 0.9;
+    }
+    path[data-originbreak="ABHW"] {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 3pt;
+        stroke-opacity: 1;        
+        fill:url("#gradABHW");
+        fill-opacity: 0.9;
     }
 
-    path[data-originbreak="classbreak8"] {
-        stroke: rgb(209, 154, 43);
-        stroke-width: 1pt;
-        stroke-opacity: 0.35;
-        fill: rgb(167, 123, 34);
-        fill-opacity: 0.8;
-    }
-
-    path[data-originbreak="classbreak9"] {
-        stroke: rgb(190, 144, 53);
-        stroke-width: 1pt;
-        stroke-opacity: 0.35;
-        fill: rgb(152, 115, 40);
-        fill-opacity: 0.8;
-    }*/
-
-        /* mouse hover animation */
+    /* mouse hover animation */
     @keyframes highlight {
         100% {
             fill-opacity: 1;
@@ -244,29 +308,62 @@ html, body, #mapDiv0, #mapDiv1 {
     
     #originText { 
         position: absolute;
-        top: 5px;
-        right: 50%;
+        top: 60px;
+        left: 60px;
         opacity: 0.9;       
         font-family: sans-serif;
         text-align: center; /* horizontally center */
-        height: 120px; /* any height */
-        width: 120px;
-        border-radius: 100px;        
-        z-index: 50; 
+        height: 100px; /* any height */
+        width: 300px;
+        border-radius: 4px;
+        border:0px solid rgb(220, 220, 220);        
+        z-index: 50;
+        font-size: x-large; 
     }
 
     #originText h1 {
-        margin-top: 40px;        
+        margin-top: 60px;        
         vertical-align: middle;
         display: inline-block; 
     }
 
+    #groupskip{
+        position: absolute;
+        top: 20px;
+        left: 60px;
+        z-index: 50;   
+    }
+
+    #startover{
+        position: absolute;
+        top: 20px;
+        left: 160px;
+        z-index: 50;   
+    }
 
     #polysub{
         position: absolute;
-        top: 15px;
+        top: 20px;
+        left: 255px;
+        z-index: 50;   
+    }
+
+    #newzipstart{
+        position: absolute;
+        top: 20px;
         left: 60px;
         z-index: 50;   
+    }
+
+    #modalinfo{
+        position: absolute;
+        top: 20px;
+        left: 318px;
+        z-index: 50;   
+    }
+
+    .qform{
+        margin-top: 20px;
     }
 
     #polysync{
@@ -311,47 +408,211 @@ html, body, #mapDiv0, #mapDiv1 {
       line-height: 1.33;
       border-radius: 35px;
     }
+    
     #alert_placeholder{
         position: fixed; 
-        bottom: 0; 
+        bottom: 5px; 
         z-index:50;  
     }
 
     .alert {
-        padding: 7px;
-        margin-bottom: 10px;
+        padding: 15px;
+        margin-bottom: 0px;
         border: 1px solid transparent;
         border-radius: 4px;
+        margin-left: 10px;
     }
-    #legendDiv{
-        width:90px;
-        height: 140px;
-        position: absolute;
-        top: 15px;
-        right: 15px;        
-        background-color: #FFFFFF;
-        background-image:  url(legend.png);
-        background-repeat: no-repeat;
-        opacity: 0.85;
-        border-radius: 7px;
-        z-index: 999;
-        padding: 1em;
-        font-size: 0.95em;
-    }
-    #legendDiv1{
-        width: 90px;
-        height: 140px;
-        position: absolute;
-        top: 15px;
-        right: 15px;        
-        background-color: #FFFFFF;
-        background-image:  url(legend.png);
-        background-repeat: no-repeat;
-        opacity: 0.85;
-        border-radius: 7px;
-        z-index: 999;
-        padding: 1em;
-        font-size: 0.95em;
-    }  
-
     
+    #legendDiv0{
+        width: 160px;
+        height: 170px;
+        position: absolute;
+        top: 19px;
+        right: 30px;        
+        background-color: #FFFFFF;        
+        background-repeat: no-repeat;
+        opacity: 0;
+        border-radius: 7px;
+        z-index: 999;
+        padding: 1em;
+        font-size: 0.95em;
+    }
+    
+
+    h2, .h2 {
+        font-size: 30px;
+        text-align: center;
+    } 
+
+    #legendDiv1{
+        width:280px;
+        height: 440px;
+        position: absolute;
+        top: 19px;
+        right: 15px;        
+        background-color: #FFFFFF;       
+        background-repeat: no-repeat;
+        opacity: 0.90;
+        border-radius: 7px;
+        z-index: 999;
+        padding: 1em;
+        font-size: 0.95em;
+    }
+    
+    #zipcodeid{margin-bottom: 20px;}
+    #radioyear{margin-top: 20px; border-bottom: 1px solid #e5e5e5;}
+
+    #Asian{background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); border-color:rgb(0, 0, 0); border-style: solid; border-width: 2px; border-radius: 3px; text-align: center; font-weight: bold; font-size: large;}
+    #Black{background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); border-color:rgb(0, 0, 0); border-style: solid; border-width: 2px; border-radius: 3px; text-align: center; font-weight: bold; font-size: large;}
+    #Hispanic{background-color:rgb(255, 255, 255); color: rgb(0, 0, 0); border-color:rgb(0, 0, 0); border-style: solid; border-width: 2px; border-radius: 3px; text-align: center; font-weight: bold; font-size: large;}
+    #White{background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); border-color:rgb(0, 0, 0); border-style: solid; border-width: 2px; border-radius: 3px; text-align: center; font-weight: bold; font-size: large;}
+    
+    .Asian{background-color: rgb(255, 128, 0); color: rgb(255, 255, 255); font-weight: bold;}
+    .Black{background-color: rgb(255, 0, 0); color: rgb(255, 255, 255); font-weight: bold;}
+    .Hispanic{background-color:rgb(0, 255, 0); color: rgb(255, 255, 255); font-weight: bold;}
+    .White{background-color: rgb(0, 0, 255); color: rgb(255, 255, 255); font-weight: bold;}
+    
+
+
+    .legendtitle{font-size: larger; font-weight: bold}
+    .ptopborder{border-bottom: 1px solid #e5e5e5;}
+    #q6form{margin-bottom: 30px;}
+
+    #video{margin-left:66px;}
+
+    @-moz-document url-prefix() { 
+        path[data-originbreak="AB"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradAB);
+            fill-opacity: 0.9;
+        }
+        /*click 1*/
+        path[data-originbreak="AH"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;       
+            fill:url(../#gradAH);
+            fill-opacity: 0.9;
+        }
+
+        path[data-originbreak="BH"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradBH);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="ABH"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradABH);
+            fill-opacity: 0.9;
+        }
+        /*click 2*/
+        path[data-originbreak="AW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;       
+            fill:url(../#gradAW);
+            fill-opacity: 0.9;
+        }
+
+        path[data-originbreak="BW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradBW);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="HW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradHW);
+            fill-opacity: 0.9;
+        }
+        /*click 3*/
+        path[data-originbreak="AW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradAW);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="BW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradBW);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="HW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradHW);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="ABW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradABW);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="AHW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradAHW);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="BHW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradBHW);
+            fill-opacity: 0.9;
+        }
+        path[data-originbreak="ABHW"] {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 3pt;
+            stroke-opacity: 1;        
+            fill:url(../#gradABHW);
+            fill-opacity: 0.9;
+        }
+    }
+
+    .dropdown{
+        position: absolute;
+        top: 20px;        
+        right: 200px;
+        z-index: 50;
+        min-width: 106px;
+    }
+    .dropdown-menu{
+        min-width: 106px;
+    }    
+
+    table {width:260px;}
+    table, th, td {
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 1px;
+        text-align: center;
+    }
+    table#blockTable tr:nth-child(even) {
+        background-color: #eee;
+    }
+    table#blockTable tr:nth-child(odd) {
+       background-color:#fff;
+    }
+    table#blockTable th    {
+        background-color: gray;
+        color: white;
+    }
