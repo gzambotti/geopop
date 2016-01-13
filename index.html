@@ -24,12 +24,13 @@
       <div id="mapDiv1"><button type="submit" id="newzipstart" class="btn btn-default">Try a new zipcode!</button></div>
       <!--<div id="legendDiv1"><div class="ct-chart ct-perfect-fourth"></div></div>-->
       <div id="legendDiv1">
-        <canvas id="line-bar" width="260" height="300"></canvas>
+        <p id="chart-title">Population of Neighborhoods</p>
+        <canvas id="line-bar"></canvas>
         <table id="blockTable">
           <tr>
             <th></th>
-            <th>Average</th>    
-            <th>Highest</th>
+            <th>Average Neighborhood</th>    
+            <th>Highest Neighborhood</th>
           </tr>
         </table>
       </div>
@@ -47,7 +48,7 @@
       <div id="legendDiv0"></div>
       <div id="originText"></div>
       <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Basemaps
+        <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Change Base Map
         <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
           <li role="presentation" value="gray"><a role="menuitem" tabindex="-1" href="#">Gray</a></li>
@@ -71,8 +72,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="modalPageZero">
-                      Please read the following information about this research and indicate that you agree to participate. 
-                      <p><strong>Purpose of the research</strong>: To understand the how well people can place groups in geographic space and how this relates to their attitudes about groups.</p>
+                      <p>Please read the following information about this research and indicate that you agree to participate.</p> 
+                      <p><strong>Purpose of the research</strong>: To understand how well people can place groups in geographic space and how this relates to their attitudes about groups.</p>
                       <p><strong>What you will do in this research:</strong> If you decide to participate, you will complete one survey in which you will be asked to try to place groups on a map.</p>
                       <p><strong>Time required:</strong> The survey will take approximately 5 minutes to complete.</p>
                       <p><strong>Benefits:</strong> There are no direct benefits, but you may find it interesting.</p>
@@ -82,9 +83,9 @@
                     </div>
                     <div class="modalPageOne">
                       <div class="input-group">                        
-                        <p><strong>What is your relationship with this zipcode?</strong></p>
+                        <p><strong>Please enter a zipcode</strong></p>
                         <input type="text" class="form-control" id="zipcodeid">                        
-                        <p class="ptopborder"><strong>Do you live in this zip code?</strong></p>
+                        <p class="ptopborder"><strong>What is your relationship with this zipcode?</strong></p>
                           <form id="zipcoderadio" role="form">
                             <label class="radio-inline"><input type="radio" name="optradiolive" value="1" checked>I live here</label>
                             <label class="radio-inline"><input type="radio" name="optradiolive" value="2">I grew up here</label>
@@ -94,11 +95,11 @@
                             <label class="radio-inline"><input type="radio" name="optradiolive" value="6">I’m just interested</label>
                             <label class="radio-inline"><input type="radio" name="optradiolive" value="7">Other</label>              
                           </form>
-                        <p id="radioyear"><strong>If you live in this zipcode, how long have you lived there?</strong></p>
+                        <p id="radioyear"><strong>If you live (or lived) in this zipcode, how long have you lived there?</strong></p>
                           <form id="yearradio" role="form">
                             <label class="radio-inline"><input type="radio" name="optradioyear" value="1">Less than a year</label>
                             <label class="radio-inline"><input type="radio" name="optradioyear" value="5">1 to 5 years</label>
-                            <label class="radio-inline"><input type="radio" name="optradioyear" value="10">5 to 10 years</label>
+                            <label class="radio-inline"><input type="radio" name="optradioyear" value="10">6 to 10 years</label>
                             <label class="radio-inline"><input type="radio" name="optradioyear" value="10+">More than 10 years</label>              
                           </form>                          
                       </div>
@@ -115,13 +116,14 @@
                       <p>
                         On the next screen, you will be asked to indicate in which neighborhood do most people from certain groups live.</p>  
                       <p>
-                        For example, first you be asked to indicate in which neighborhood do most Asian people live? Click on a neighborhood to indicate where you think most Asian people live.  The neighborhood will turn orange to indicate your choice.  You will then be asked to do the same thing for three other groups.</p>  
+                        For example, first you will be asked to indicate in which neighborhood do most Asian people live.  Click on a neighborhood to indicate where you think most Asian people live. The neighborhood will turn orange to indicate your choice. You will then be asked to do the same thing for three other groups.</p>  
                       <p>  
-                        You can choose the same neighborhood for more than one group.  You can also choose “Skip Group” if you don’t know.</p>
+                        You can choose the same neighborhood for more than one group. You can also choose “Skip Group” if you don’t know.</p>
                       <p>  
                         When you’ve made all your selections, click “Save,” and we will show you the correct answers.</p>
-                        
-                      <p id="video"><img src="css/geo.gif"></p>                        
+                      <p>  
+                        You can also change the basemap with the button in the upper right corner of the screen. And zoom in and out with the buttons on the left.</p>  
+                      <!--<p id="video"><img src="css/geo.gif"></p>-->                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -205,7 +207,6 @@
                     <label class="radio-inline"><input type="radio" name="radioq6" value="black">Black</label>
                     <label class="radio-inline"><input type="radio" name="radioq6" value="hispanic">Hispanic</label>
                     <label class="radio-inline"><input type="radio" name="radioq6" value="white">White</label>
-                    <label class="radio-inline"><input type="radio" name="radioq6" value="other">Other</label>
                   </form>
                   <p>Please tell us your email address (optional).  We will not share it with anybody.  
                   We will only use it to connect your answers to previous surveys, if you’ve done this before</p>
@@ -221,8 +222,7 @@
       </div>                  
     </div>
     <!-- Third Entry Form: store user information -->    
-    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <!--<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>    
     <script src="js/Chart.js"></script>
     <!-- ArcGIS API for JavaScript library references -->
     <script src="https://js.arcgis.com/3.14compact"></script>

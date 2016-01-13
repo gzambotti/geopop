@@ -1,13 +1,4 @@
-// Hello.
-//
-// This is JSHint, a tool that helps to detect errors and potential
-// problems in your JavaScript code.
-//
-// To start, simply enter some JavaScript anywhere on this page. Your
-// report will appear on the right side.
-//
-// Additionally, you can toggle specific options in the Configure
-// menu.
+// Code by Giovanni Zambotti (g.zambotti@gmail.com)
 "use strict";
 var currentPage = 1;
 
@@ -22,13 +13,7 @@ $(document).ready(function() {
         $("#formModalSecond").modal("hide");               
         $("#formModalThird").modal("hide");               
     });
-    
-    //$('.dropdown-toggle').dropdown();
-    
-
 });
-
-
 
 function NextPage() {    
     if (currentPage == 1){
@@ -36,7 +21,6 @@ function NextPage() {
         $(".modalPageOne").show();
         $(".modalPageTwo").hide();
         $(".modalPageThree").hide();
-        //console.log(currentPage)
         document.getElementsByTagName("h2")[0].innerHTML = "People and Geography Quiz from Harvard University";        
         currentPage++;
         // to do we need to check 1) if there is a zipcode 2) if it's valid zipcode    
@@ -71,7 +55,7 @@ $(function() {
         NextPage();
         var bootstrap_alert = function() {};
         bootstrap_alert.info = function(message) {
-            $("#alert_placeholder").append("<div class=\"alert alert-danger alert-dismissable\">"+ message+"</div>");
+            $("#alert_placeholder").append("<div class=\"alert alert-danger alert-dismissable\">"+ message +"</div>");
         }; 
         //console.log($('input[name=optradio]:checked', '#zipcoderadio').val())
         if(currentPage == 3){
@@ -98,7 +82,7 @@ $(function() {
                     $(".modalPageOne").show();
                     $(".modalPageTwo").hide();
                     $(".modalPageThree").hide();
-                    bootstrap_alert.info("Wrong ZIP code. Please try again!");                    
+                    bootstrap_alert.info("Invalid zipcode, please enter another.");                    
                     $(".alert").fadeTo(1500, 500).slideUp(500, function(){ $(this).remove(); });                    
                 }    
             }
@@ -108,15 +92,13 @@ $(function() {
     });
 });
 
-//var colors = ["none","Asian", "Black", "Hispanic", "White", "Other"];
 var colors = ["Asian", "Black", "Hispanic", "White"];
+// set up array for the four group category
 var n = 0;
 var fourGroups = [];
 
 function change() {
     var fipsColors = colors[n++ % colors.length]; 
-    console.log(fipsColors, n);
-
     switch (fipsColors) {
         case "Asian":
             document.getElementById("Asian").style.background = "rgb(255, 128, 0)";
@@ -142,11 +124,6 @@ function change() {
     return fipsColors;
 }
 
-
-/*function ShowResults(value, index, ar) {    
-    return value.polyfips;
-}*/
-
 function myPoly(polyfips, polyorigin, polyX, polyY, polyIDX) {
     this.polyfips = polyfips;
     this.polyorigin = polyorigin;
@@ -170,8 +147,7 @@ Date.prototype.IsoNum = function (n) {
 var timeX = new Date();
 var time = timeX.IsoNum(14);
 // generate time
-var hash = function(s){
-    
+var hash = function(s){    
     if (typeof(s) == "number" && s === parseInt(s, 10)){
         s = Array(s + 1).join("x");
     }
@@ -187,7 +163,7 @@ var userhash = hash(10);
 var sessionObj1 = {};
 var sessionObj2 = {};
 // two objects to store the data result
-var serverurl = "http://arcgis-arccgaharvardedu-66613874.us-east-1.elb.amazonaws.com/arcgis/rest/services/hgks/geopop/MapServer";
+var serverurl = "http://arcgis-arccgaharvardedu-66613874.us-east-1.elb.amazonaws.com/arcgis/rest/services/geosurvey/geopop/MapServer";
 // arcgis server services URL
 require([
     "esri/map",
@@ -198,11 +174,12 @@ require([
     "esri/symbols/SimpleFillSymbol", 
     "esri/renderers/SimpleRenderer",
     "esri/Color",
-    "esri/geometry/webMercatorUtils",   
+    "esri/geometry/webMercatorUtils",
+    "esri/graphicsUtils",
     "dojo/on",
     "dojo/parser",
     "dojo/ready"
-], function (Map, QueryTask, Query, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, Color, webMercatorUtils, on, parser, ready) {
+], function (Map, QueryTask, Query, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, Color, webMercatorUtils, graphicsUtils, on, parser, ready) {
     parser.parse();
     
     ready(function () {            
@@ -212,41 +189,44 @@ require([
         map1 = new Map("mapDiv1",{basemap: "gray", center: [-94, 38], zoom: 5 });
         map0.on("load", function() {map0.disableDoubleClickZoom();});
         map1.on("extent-change", function (){map0.setExtent(map1.extent);});
-
+        // sync the two maps
         $(document).on('click', '.dropdown-menu li', function () {
             console.log($(this).attr("value"));
             var typeBasemap = $(this).attr("value");
             map0.setBasemap(typeBasemap);
             map1.setBasemap(typeBasemap);
+
         });
                        
         $("#zipsub").click(function(){              
             var zipcode = String(document.getElementById("zipcodeid").value);            
-            var queryTask = new QueryTask(serverurl + "/1");
+            var queryTask = new QueryTask(serverurl + "/0");
             var query = new Query();
             query.returnGeometry = true;
-            query.where = "ZIP = '"+ zipcode + "'";
-            queryTask.execute(query,queryZipcode);
-            addZipcodeLayerMap0(zipcode);
-            addFeatureLayer(zipcode);
-            addZipcodeLayerMap1(zipcode);
+            query.where = "zipcode = '"+ zipcode + "'";
+                         
+            addFeatureLayer(zipcode);            
             addSideLayer(zipcode);
+            queryTask.execute(query,queryZipcode);
             
-            
+            // to do check if it's possible to add the zipcode outline in map0 and map1
+            // with a single function            
             featureLayer.on("update-end", function () {                     
-            //keep the layer selected on zoom in and zoom out 
-            if(myPolyArray.length === 0){ 
-                for (var i = 0; i < document.getElementsByClassName("svgMap0").length; i++) { 
-                    var valFIPS = document.getElementsByClassName("svgMap0")[i].getAttribute("data-FIPS");
-                    var valX = document.getElementsByClassName("svgMap0")[i].getAttribute("data-X");
-                    var valY = document.getElementsByClassName("svgMap0")[i].getAttribute("data-Y");
-                    var valY = document.getElementsByClassName("svgMap0")[i].getAttribute("data-Y");
-                    var valIDX = document.getElementsByClassName("svgMap0")[i].getAttribute("data-IDX");  
-                    var fipsPoly = new myPoly(valFIPS, "none", valX,valY,valIDX);                            
-                    myPolyArray.push(fipsPoly);                    
+                //keep the layer selected on zoom in and zoom out 
+                if(myPolyArray.length === 0){ 
+                    for (var i = 0; i < document.getElementsByClassName("svgMap0").length; i++) { 
+                        var valFIPS = document.getElementsByClassName("svgMap0")[i].getAttribute("data-FIPS");
+                        var valX = document.getElementsByClassName("svgMap0")[i].getAttribute("data-X");
+                        var valY = document.getElementsByClassName("svgMap0")[i].getAttribute("data-Y");
+                        var valY = document.getElementsByClassName("svgMap0")[i].getAttribute("data-Y");
+                        var valIDX = document.getElementsByClassName("svgMap0")[i].getAttribute("data-IDX");  
+                        var fipsPoly = new myPoly(valFIPS, "none", valX,valY,valIDX);                            
+                        myPolyArray.push(fipsPoly);                    
                     }
                 }
-            });           
+                 
+            });
+                      
             
             var pctArray = {Asian:0, Black: 0, Hispanic: 0, White: 0};            
             var element1 = document.getElementById("legendDiv0");
@@ -261,46 +241,20 @@ require([
             document.getElementById("legendDiv0").style.opacity = 0.9;
             // when the blockgroup boundaries load add the legend on map0
             var raceVal = document.getElementById("originText");
-            raceVal.innerHTML = "Choose the neighborhood where most <b>Asian</b> live or choose “Skip Group”";
+            raceVal.innerHTML = "Choose the neighborhood where most <b>Asian</b> people live or choose “Skip Group”";
             raceVal.style.color = "rgb(255, 255, 255)";
             //raceVal.style.background = "rgb(255, 128, 0)";
             raceVal.style.background = "rgb(255, 128, 0)";
-            // add the blob
-                                       
+            // add the blob and create legend 0
+            //console.log(map0.getZoom()) 
+            //map0.setZoom(map0.getZoom() + 1)
+            
+                                      
         });
-
-        function addZipcodeLayerMap0(zipval) {       
-            var zipcodeLayer = new FeatureLayer(serverurl + "/1", {
-                id:"zipcodeLayer",                
-                dataAttributes:["ZIP"]
-            });
-
-            zipcodeLayer.setDefinitionExpression("ZIP = '"+ zipval + "'");
-
-            var sfs = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 0]), 4);
-
-            zipcodeLayer.setRenderer(new SimpleRenderer(sfs));
-            map0.addLayer(zipcodeLayer);
-            //map1.addLayer(zipcodeLayer);
-            return zipcodeLayer;
-        }
-
-        function addZipcodeLayerMap1(zipval) {       
-            var zipcodeLayer = new FeatureLayer(serverurl + "/1", {
-                id:"zipcodeLayer",                
-                dataAttributes:["ZIP"]
-            });
-
-            zipcodeLayer.setDefinitionExpression("ZIP = '"+ zipval + "'");
-
-            var sfs = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 0]), 4);
-
-            zipcodeLayer.setRenderer(new SimpleRenderer(sfs));
-            map1.addLayer(zipcodeLayer);
-            return zipcodeLayer;
-        }
         
-        // add zipcode outline to the map         
+        
+
+             
         $("#modalinfo").click(function(){
             $("#formModalFirst").modal("show");
             currentPage = 4;              
@@ -318,20 +272,19 @@ require([
             var pctBlackUser = $("input[name=radioq2]:checked", "#q2form").val();
             var pctHispanicUser = $("input[name=radioq3]:checked", "#q3form").val();
             var pctWhiteUser = $("input[name=radioq4]:checked", "#q4form").val();
-            //var pctOtherUser = $("input[name=radioq5]:checked", "#q5form").val();
+            // track the user form input
             // open the second map
             sessionObj2.timestamp = time;
             sessionObj2.sessionid = time + "_"+ userhash;
             sessionObj2.pctAsian = pctAsianUser;
             sessionObj2.pctBlack = pctBlackUser;
             sessionObj2.pctHispanic = pctHispanicUser;
-            sessionObj2.pctWhite = pctWhiteUser;
-            //sessionObj2.pctOther = pctOtherUser;    
+            sessionObj2.pctWhite = pctWhiteUser;            
             sessionObj2.respondent = $("input[name=radioq6]:checked", "#q6form").val();
             sessionObj2.email = String(document.getElementById("useremail").value);
             
             var myJsonString2 = JSON.stringify(sessionObj2);
-            console.log(myJsonString2);           
+            //console.log(myJsonString2);           
             // store the data in the database
             featureLayer.disableMouseEvents();        
             // disable the mouse click over the MAP0 once MAP1 is also on       
@@ -342,15 +295,12 @@ require([
             totWhite = totWhite ? totWhite : 0;
             countRows = countRows ? countRows : 0;            
             // make sure a null value become zero
-            //totAll = parseInt(totAsian) + parseInt(totBlack) + parseInt(totHispanic) + parseInt(totWhite);
-            //console.log(parseInt(totAsian), parseInt(totBlack), parseInt(totHispanic), parseInt(totWhite), countRows)
-            
             var meanAsian = parseFloat((totAsian / countRows)).toFixed(0);
             var meanBlack = parseFloat((totBlack / countRows)).toFixed(0);
             var meanHispanic = parseFloat((totHispanic / countRows)).toFixed(0);
             var meanWhite = parseFloat((totWhite / countRows)).toFixed(0);          
             
-            // create average variables
+            // create mean variables to hold the mean values for all blockgrousps
             var meanArray = {Asian:meanAsian + "," + highAsian , Black: meanBlack + "," + highBlack, 
             Hispanic: meanHispanic + "," + highHispanic, White: meanWhite + "," + highWhite};
             console.log(meanArray)
@@ -407,94 +357,13 @@ require([
                 
             });
 
-            /*new Chartist.Bar('.ct-chart', {
-              labels: ['Asian (Mean: ' + meanAsian +')', 'Black (Mean:' + meanBlack +')', 'Hispanic (Mean: ' + meanHispanic +')', 'White (Mean: ' + meanWhite + ')'],
-              series: [highAsian, highBlack, highHispanic, highWhite]
-            }, {
-              distributeSeries: true,
-              //horizontalBars: true
-            });*/
-            /*
-            var pctArrayUser = {Asian:pctAsianUser, Black: pctBlackUser, Hispanic: pctHispanicUser, White: pctWhiteUser, Other: pctOtherUser};
-            console.log(pctArrayUser);
-            $.each(pctArrayUser, function(key) {
-                switch (pctArrayUser[key]) {
-                    case "1":
-                        pctArrayUser[key] = "< 10%";     
-                        break;
-                    case "2":                            
-                        pctArrayUser[key] = "11 to 30%";     
-                        break;
-                    case "3":                            
-                        pctArrayUser[key] = "31 to 50%";     
-                        break;
-                    case "4":                            
-                        pctArrayUser[key] = "51 to 70%";     
-                        break;
-                    case "5":                            
-                        pctArrayUser[key] = "71 to 90%";     
-                        break;            
-                    case "6":                            
-                        pctArrayUser[key] = "> 90%";     
-                        break;
-                    case undefined:                            
-                        pctArrayUser[key] = "0%";  
-                        break;                        
-                }   
-            });    
-            
-            var para1 = document.createElement("p");
-            var node1 = document.createTextNode("Groups average and highest");
-            
-            para1.appendChild(node1);
-            para1.className = "legendtitle";
-            var element1 = document.getElementById("legendDiv1");
-            element1.appendChild(para1);
-
-            $.each(averageArray, function(key) {
-                var para1 = document.createElement("p");
-                var node1 = document.createTextNode(key + ": " + averageArray[key].split(',')[0] + " - " + averageArray[key].split(',')[1]);
-                para1.appendChild(node1);
-                para1.id = key;
-
-                //var element1 = document.getElementById("legendDiv1");
-                element1.appendChild(para1);
-            });
-            */
-            // populate LEGEND MAP 1
-            /*
-            document.getElementById("legendDiv0").style.height = "210px";
-            document.getElementById("legendDiv0").style.width = "160px";           
-            // set a new legend height and width
-            var myNode = document.getElementById("legendDiv0");
-            while (myNode.firstChild) {
-                myNode.removeChild(myNode.firstChild);
-            }
-            var para0 = document.createElement("p");
-            var node0 = document.createTextNode("Here’s what you said");
- 
-            para0.appendChild(node0);
-            para0.className = "legendtitle";
-            var element0 = document.getElementById("legendDiv0");
-            element0.appendChild(para0);
-
-            $.each(pctArrayUser, function(key) {
-                var para1 = document.createElement("p");
-                var node1 = document.createTextNode(key + ": " + pctArrayUser[key]);
-                para1.appendChild(node1);
-                para1.id = key;
-                //var element1 = document.getElementById("legendDiv0");
-                element0.appendChild(para1);
-            });            
-            */
-            // populate LEGEND MAP 0
             var widthmap1 = document.getElementById("mapDiv1_root").style.width.split("px")[0]/6;
             var heightmap1 = document.getElementById("mapDiv1_root").style.height.split("px")[0]/2;
             var screenmap1 = esri.geometry.ScreenPoint(widthmap1,heightmap1);
             var mp = map1.toMap(screenmap1);
             var normalizedVal = esri.geometry.xyToLngLat(mp.x,mp.y)
             map1.centerAt(normalizedVal);
-            var timesRun = 0;
+            /*var timesRun = 0;
             var interval = setInterval(function(){
                 timesRun += 1;
                 if(timesRun === 2){
@@ -503,12 +372,13 @@ require([
                 //do whatever here..                
                 map0.setExtent(map1.extent);                
             }, 1000);
-                       
+            */           
             // sync the two maps
                       
             $.post("js/survey.php", { myJsonString2: myJsonString2 }, function(data){ 
                 // show the response
-                window.open(data); 
+                //window.open(data);
+                console.log("data sessionObj2 submitted correctly"); 
             }).fail(function() { 
                 // just in case posting your form failed
                 alert( "Posting failed." ); 
@@ -518,12 +388,21 @@ require([
                 
         function queryZipcode(featureSet) {
             var resultFeatures = featureSet.features;
-            for (var i=0, il = resultFeatures.length; i<il; i++) {
+            /*for (var i=0, il = resultFeatures.length; i<il; i++) {
                 var graphic = resultFeatures[i];                    
                 map0.setExtent(graphic.geometry.getExtent().expand(1), true);
                 map1.setExtent(graphic.geometry.getExtent().expand(1), true);
                 
-            }                     
+            } */
+            //console.log(resultFeatures);
+            var myFeatureExtent = graphicsUtils.graphicsExtent(resultFeatures);
+            map0.setExtent(myFeatureExtent.expand(0.1));
+            map1.setExtent(myFeatureExtent.expand(0.5));
+
+            //console.log(myFeatureExtent);
+            //var sfs = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 0]), 4);
+            //map0.graphics.add(new esri.Graphic(resultFeatures[0].geometry, sfs)).getShape().moveToBack();
+            //map1.graphics.add(new esri.Graphic(resultFeatures[0].geometry, sfs));
         }               
         
         $("#groupskip").click(function(){            
@@ -572,8 +451,7 @@ require([
             groupMessage("Asian");
 
         });
-
-        // start over
+        // start over function
 
         // zoom at the zipcode extent            
         $("#polysub").click(function(){
@@ -591,17 +469,18 @@ require([
             sessionObj1.sessionid = time + "_"+ userhash;
             sessionObj1.zip = String(document.getElementById("zipcodeid").value);
             sessionObj1.ziplive = $("input[name=optradiolive]:checked", "#zipcoderadio").val();
-            if($("input[name=optradiolive]:checked", "#zipcoderadio").val() == "yes"){
-                sessionObj1.zipyrs = $("input[name=optradioyear]:checked", "#yearradio").val();
-            }
-            else{sessionObj1.zipyrs = "";}
+            //if($("input[name=optradiolive]:checked", "#zipcoderadio").val() == "yes"){
+            sessionObj1.zipyrs = $("input[name=optradioyear]:checked", "#yearradio").val();
+            //}
+            //else{sessionObj1.zipyrs = "";}
             sessionObj1.geo = finalArray;
             var myJsonString = JSON.stringify(sessionObj1);
             console.log(myJsonString);
             
             $.post("js/submit.php", { myJsonString: myJsonString }, function(data){ 
                 // show the response
-                window.open(data); 
+                //window.open(data);
+                console.log("data sessionObj1 submitted correctly");  
             }).fail(function() { 
                 // just in case posting your form failed
                 alert( "Posting failed." ); 
@@ -653,84 +532,92 @@ require([
                     totBlack = totBlack + evt.graphic.attributes.BLACK;
                     totHispanic = totHispanic + evt.graphic.attributes.HISPANIC;
                     totWhite = totWhite + evt.graphic.attributes.WHITE;
-                    //console.log(evt.graphic.attributes.groups)
-                    /*if(evt.graphic.attributes.groups != 'N'){
-                        
-                        highAsian = evt.graphic.attributes.ASIAN;            
-                        highBlack = evt.graphic.attributes.BLACK;
-                        highHispanic = evt.graphic.attributes.HISPANIC;
-                        highWhite = evt.graphic.attributes.WHITE;
-                        console.log(highAsian,highBlack, highHispanic, highWhite)    
-                    }*/
                     var tableAttr = evt.graphic.attributes.groups;
                     //console.log(tableAttr)
                     var category;
-                    if (tableAttr == "A") {
-                        category = "Asian";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN; 
-                    } else if (tableAttr == "AB") {
-                        category = "AB";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN;
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                    } else if (tableAttr == "ABH") {
-                        category = "ABH";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN;
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                    } else if (tableAttr == "ABHW") {
-                        category = "ABHW";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN;
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    } else if (tableAttr == "ABW") {
-                        category = "ABW";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN;
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    } else if (tableAttr == "AH") {
-                        category = "AH";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN;
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                    } else if (tableAttr == "AHW") {
-                        category = "AHW";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN;
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    } else if (tableAttr == "AW") {
-                        category = "AW";
-                        highAsian = highAsian + evt.graphic.attributes.ASIAN;
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    } else if (tableAttr == "B") {
-                        category = "Black";
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                    } else if (tableAttr == "BH") {
-                        category = "BH";
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                    } else if (tableAttr == "BHW") {
-                        category = "BHW";
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    } else if (tableAttr == "BW") {
-                        category = "BW";
-                        highBlack = highBlack + evt.graphic.attributes.BLACK;
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    } else if (tableAttr == "H") {
-                        category = "Hispanic";
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                    } else if (tableAttr == "HW") {
-                        category = "HW";
-                        highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    } else if (tableAttr == "N") {
-                        category = "none";
+                    switch (tableAttr) {
+                        case "A":
+                            category = "Asian";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;                            
+                            break;
+                        case "AB":
+                            category = "AB";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            break;
+                        case "ABH":
+                            category = "ABH";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            break;
+                        case "ABHW":
+                            category = "ABHW";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;
+                        case "ABW":
+                            category = "ABW";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;
+                        case "AH":
+                            category = "AH";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            break;
+                        case "AHW":
+                            category = "AHW";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;
+                        case "AW":
+                            category = "AW";
+                            highAsian = highAsian + evt.graphic.attributes.ASIAN;
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;
+                        case "B":
+                            category = "Black";
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            break;
+                        case "BH":
+                            category = "BH";
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            break;
+                        case "BHW":
+                            category = "BHW";
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;
+                        case "BW":
+                            category = "BW";
+                            highBlack = highBlack + evt.graphic.attributes.BLACK;
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;
+                        case "H":
+                            category = "Hispanic";
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            break;
+                        case "HW":
+                            category = "HW";
+                            highHispanic = highHispanic + evt.graphic.attributes.HISPANIC;
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;
+                        case "N":
+                            category = "none";
+                            break;
+                        case "W":
+                            category = "White";
+                            highWhite = highWhite + evt.graphic.attributes.WHITE;
+                            break;                                          
                     }
-                    else if (tableAttr == "W") {
-                        category = "White";
-                        highWhite = highWhite + evt.graphic.attributes.WHITE;
-                    }
+                    
                     // set the data attribute for the current feature
                     evt.node.setAttribute("data-originbreak", category);
                     
@@ -757,23 +644,23 @@ require([
         //blkColor = valGroup;            
         switch (blkColor) {
             case "Asian":                            
-                raceVal.innerHTML = "Choose the neighborhood where most <b>Asian</b> live or choose “Skip Group”.";
+                raceVal.innerHTML = "Choose the neighborhood where most <b>Asian</b> people live or choose “Skip Group”.";
                 raceVal.style.color = "rgb(255, 255, 255)";
                 //raceVal.style.background = "rgb(255, 128, 0)";
                 raceVal.style.background = "rgb(255, 128, 0)";
                 break;
             case "Black":
-                raceVal.innerHTML = "Choose the neighborhood where most <b>Black</b> live or choose “Skip Group”.";
+                raceVal.innerHTML = "Choose the neighborhood where most <b>Black</b> people live or choose “Skip Group”.";
                 raceVal.style.color = "rgb(255, 255, 255)";
                 raceVal.style.background = "rgb(255, 0, 0)";                                                        
                 break;
             case "Hispanic":
-                raceVal.innerHTML = "Choose the neighborhood where most <b>Hispanic</b> live or choose “Skip Group”.";                           
+                raceVal.innerHTML = "Choose the neighborhood where most <b>Hispanic</b> people live or choose “Skip Group”.";                           
                 raceVal.style.color = "rgb(255, 255, 255)";
-                raceVal.style.background = "rgb(0, 255, 0)";                            
+                raceVal.style.background = "rgb(0, 255, 0)";                                           
                 break;
             case "White":
-                raceVal.innerHTML = "Choose the neighborhood where most <b>White</b> live or choose “Skip Group”.";
+                raceVal.innerHTML = "Choose the neighborhood where most <b>White</b> people live or choose “Skip Group”.";
                 raceVal.style.color = "rgb(255, 255, 255)";
                 raceVal.style.background = "rgb(0, 0, 255)";                                                        
                 break;
@@ -1005,7 +892,7 @@ require([
         }
         
         
-        map0.addLayer(featureLayer);      
+        map0.addLayer(featureLayer);        
         return featureLayer;
     }
     // add the selected blockgroup to the map
