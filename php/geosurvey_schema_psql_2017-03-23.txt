@@ -1,0 +1,229 @@
+﻿--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+SET search_path = public, pg_catalog;
+SET default_tablespace = '';
+SET default_with_oids = false;
+--
+-- Name: blocks; Type: TABLE; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+CREATE TABLE blocks (
+    id integer NOT NULL,
+    blocks_session character varying(144),
+    polyfips character(20) NOT NULL,
+    polyorigin character varying(50) NOT NULL,
+    zip character(6) NOT NULL,
+    polyx character varying(40) NOT NULL,
+    polyy character varying(40) NOT NULL
+);
+
+
+ALTER TABLE public.blocks OWNER TO survey_admin;
+--
+-- Name: blocks_id_seq; Type: SEQUENCE; Schema: public; Owner: survey_admin
+--
+
+CREATE SEQUENCE blocks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.blocks_id_seq OWNER TO survey_admin;
+
+--
+-- Name: blocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: survey_admin
+--
+
+ALTER SEQUENCE blocks_id_seq OWNED BY blocks.id;
+
+
+--
+-- Name: session; Type: TABLE; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+CREATE TABLE session (
+    id integer NOT NULL,
+    "time" character(16) NOT NULL,
+    sessionid character varying(144) NOT NULL,
+    zip character(6) NOT NULL,
+    homezip character(6) NOT NULL,
+    yrs character varying(14)
+);
+
+
+ALTER TABLE public.session OWNER TO survey_admin;
+
+--
+-- Name: session_id_seq; Type: SEQUENCE; Schema: public; Owner: survey_admin
+--
+
+CREATE SEQUENCE session_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.session_id_seq OWNER TO survey_admin;
+
+--
+-- Name: session_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: survey_admin
+--
+
+ALTER SEQUENCE session_id_seq OWNED BY session.id;
+
+
+--
+-- Name: survey; Type: TABLE; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+CREATE TABLE survey (
+    id integer NOT NULL,
+    "time" character(16) NOT NULL,
+    survey_session character varying(144) NOT NULL,
+    pctasian character varying(12),
+    pctblack character varying(12),
+    pcthispanic character varying(12),
+    pctwhite character varying(12),
+    respondent character varying(40),
+    email character varying(128)
+);
+
+
+ALTER TABLE public.survey OWNER TO survey_admin;
+
+--
+-- Name: survey_id_seq; Type: SEQUENCE; Schema: public; Owner: survey_admin
+--
+
+CREATE SEQUENCE survey_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.survey_id_seq OWNER TO survey_admin;
+
+--
+-- Name: survey_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: survey_admin
+--
+
+ALTER SEQUENCE survey_id_seq OWNED BY survey.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: survey_admin
+--
+
+ALTER TABLE ONLY blocks ALTER COLUMN id SET DEFAULT nextval('blocks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: survey_admin
+--
+
+ALTER TABLE ONLY session ALTER COLUMN id SET DEFAULT nextval('session_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: survey_admin
+--
+
+ALTER TABLE ONLY survey ALTER COLUMN id SET DEFAULT nextval('survey_id_seq'::regclass);
+
+
+--
+-- Name: blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+ALTER TABLE ONLY blocks
+    ADD CONSTRAINT blocks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: session_pkey; Type: CONSTRAINT; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+ALTER TABLE ONLY session
+    ADD CONSTRAINT session_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: session_sessionid_key; Type: CONSTRAINT; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+ALTER TABLE ONLY session
+    ADD CONSTRAINT session_sessionid_key UNIQUE (sessionid);
+
+
+--
+-- Name: survey_pkey; Type: CONSTRAINT; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+ALTER TABLE ONLY survey
+    ADD CONSTRAINT survey_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: survey_survey_session_key; Type: CONSTRAINT; Schema: public; Owner: survey_admin; Tablespace: 
+--
+
+ALTER TABLE ONLY survey
+    ADD CONSTRAINT survey_survey_session_key UNIQUE (survey_session);
+
+
+--
+-- Name: blocks_blocks_session_fkey; Type: FK CONSTRAINT; Schema: public; Owner: survey_admin
+--
+
+ALTER TABLE ONLY blocks
+    ADD CONSTRAINT blocks_blocks_session_fkey FOREIGN KEY (blocks_session) REFERENCES session(sessionid);
+
+
+--
+-- Name: survey_survey_session_fkey; Type: FK CONSTRAINT; Schema: public; Owner: survey_admin
+--
+
+ALTER TABLE ONLY survey
+    ADD CONSTRAINT survey_survey_session_fkey FOREIGN KEY (survey_session) REFERENCES session(sessionid);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
